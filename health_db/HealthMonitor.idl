@@ -1,0 +1,6 @@
+// HealthMonitor.idl
+module HealthSystem {
+  interface HealthService {
+    void sendData(in string patientId, in float temperature, in float heartRate, in float spo2);
+  };
+};

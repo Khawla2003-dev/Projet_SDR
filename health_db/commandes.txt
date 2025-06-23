@@ -1,0 +1,7 @@
+idlj -fall HealthMonitor.idl
+javac -d bin HealthSystem/*.java
+javac -d bin -Xlint:unchecked HealthSystem/*.java
+orbd -ORBInitialPort 1050 -ORBInitialHost localhost
+javac -d bin *.java
+java -cp "bin;lib/mysql-connector-j-8.0.33.jar" Server -ORBInitialPort 1050 -ORBInitialHost localhost
+java -cp "bin;lib/mysql-connector-j-8.0.33.jar" SensorClient -ORBInitialPort 1050 -ORBInitialHost localhost

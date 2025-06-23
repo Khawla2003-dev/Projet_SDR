@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interface Médecin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="hero">
+        <h1>Données <span>Patients</span></h1>
+        <p>Tableau de surveillance médicale en temps réel</p>
+    </section>
+
+    <section class="main-container">
+        <h2>Liste des patients</h2>
+        <table border="1" cellspacing="0" cellpadding="10" style="margin:auto; width:90%; border-radius: 10px;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fréquence cardiaque</th>
+                    <th>Saturation O<sub>2</sub></th>
+                    <th>Température</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="table-medecin">
+                <!-- Données chargées depuis medecin.php -->
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        fetch('medecin.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('table-medecin').innerHTML = data;
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interface Patient</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="hero">
+        <h1>Suivi <span>Personnel</span></h1>
+        <p>Vos constantes de santé récentes</p>
+    </section>
+
+    <section class="main-container">
+        <h2>Mes constantes</h2>
+        
+        <!-- Formulaire de saisie d'ID -->
+        <div style="margin-bottom: 20px;">
+            <label for="patient-id" style="font-weight: bold; margin-right: 10px;">Mon ID Patient :</label>
+            <input type="text" id="patient-id" placeholder="Saisir votre ID patient" 
+                   style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-right: 10px;">
+            <button onclick="loadMyData()" 
+                    style="padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Afficher mes données
+            </button>
+            <button onclick="clearData()" 
+                    style="padding: 8px 15px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 5px;">
+                Effacer
+            </button>
+        </div>
+
+        <table border="1" cellspacing="0" cellpadding="10" style="margin:auto; width:90%; border-radius: 10px;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fréquence cardiaque</th>
+                    <th>Saturation O<sub>2</sub></th>
+                    <th>Température</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="table-patient">
+                <tr><td colspan="5">Veuillez saisir votre ID patient pour voir vos données</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        function loadMyData() {
+            const patientId = document.getElementById('patient-id').value.trim();
+            
+            if (!patientId) {
+                alert('Veuillez saisir votre ID patient');
+                return;
+            }
+            
+            const url = `patient.php?patient_id=${encodeURIComponent(patientId)}`;
+            
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('table-patient').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('table-patient').innerHTML = '<tr><td colspan="5">Erreur de chargement des données</td></tr>';
+                });
+        }
+
+        function clearData() {
+            document.getElementById('patient-id').value = '';
+            document.getElementById('table-patient').innerHTML = '<tr><td colspan="5">Veuillez saisir votre ID patient pour voir vos données</td></tr>';
+        }
+
+        // Permettre la recherche en appuyant sur Entrée
+        document.getElementById('patient-id').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadMyData();
+            }
+        });
+    </script>
+</body>
+
+</html>
+
